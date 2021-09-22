@@ -1,0 +1,21 @@
+menu:
+  menu: Menu
+  add_new_menu_position: Dodawanie nowej pozycji
+  edit_menu_category: Edytuj
+  menu_elements: Pozycje menu
+  add_new_menu_item: Tworzenie nowej pozycji menu
+  redirect: Przekierowanie
+  parent: Strona nadrzędna
+  choose_parent: Wybierz podstronę
+  open_in_a_new_tab: Otworzyć w nowej karcie
+  open_in_a_new_tab_help: Wybierz TAK, jeśli ten link ma się otworzyć w nowej zakładce
+  the_menu_item_has_been_deleted: Pozycja menu została skasowana
+
+menu_category:
+  menu_categories: Kategorie menu
+  title: Nazwa menu
+  code: Kod menu
+  isCached: Czy jest cachowane?
+  add_new_menu: Dodawanie nowego menu
+
+

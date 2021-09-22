@@ -1,0 +1,7 @@
+menu:
+  menu: Menu
+  redirect: Redirect
+  parent: Parent item
+  choose_parent: Choose parent
+  open_in_a_new_tab: Open in a new tab
+  open_in_a_new_tab_help: Select YES if this link is to open in a new tab
