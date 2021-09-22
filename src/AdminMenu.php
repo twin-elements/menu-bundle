@@ -10,7 +10,7 @@ class AdminMenu implements AdminMenuInterface
     public function getItems()
     {
         return [
-            MenuItem::newInstance('cms.menu', 'menucategory_index', [], 15),
+            MenuItem::newInstance('menu.menu', 'menucategory_index', [], 15),
         ];
     }
 }
