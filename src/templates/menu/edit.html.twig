@@ -1,0 +1,20 @@
+{% extends '@TwinElementsAdmin/core/details_with_sidebar.html.twig' %}
+
+{% set back_button_link = path('menu_index', {'category': menu_category.id}) %}
+
+{% block title %}
+    {% if entity.title %}
+        {{ entity.title }}
+    {% else %}
+        {{ entity.translate(default_locale, false).title }}<br>
+        <span class="badge badge-warning small">{{ "cms.no_translation_for_this_locale"|translate_admin }}</span>
+    {% endif %}
+{% endblock %}
+{% block buttons %}
+    {{ block('back_button') }}
+{% endblock %}
+
+{% block right_sidebar %}
+    {{ block('changes_details') }}
+    {{ block('delete_form') }}
+{% endblock %}

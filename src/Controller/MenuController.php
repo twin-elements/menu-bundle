@@ -55,7 +55,7 @@ class MenuController extends AbstractController
             $menuCategory->getTitle() => null
         ]);
 
-        return $this->render('admin/menu/index.html.twig', array(
+        return $this->render('@TwinElementsMenu/menu/index.html.twig', array(
             'menus' => $menuItems,
             'menu_category' => $menuCategory
         ));
@@ -146,7 +146,7 @@ class MenuController extends AbstractController
             'Dodawanie nowej pozycji' => null
         ]);
 
-        return $this->render('admin/menu/new.html.twig', array(
+        return $this->render('@TwinElementsMenu/menu/new.html.twig', array(
             'menu' => $menu,
             'menu_category' => $menuCategory,
             'form' => $form->createView(),
@@ -203,7 +203,7 @@ class MenuController extends AbstractController
             $menu->getTitle() => null
         ]);
 
-        return $this->render('admin/menu/edit.html.twig', array(
+        return $this->render('@TwinElementsMenu/menu/edit.html.twig', array(
             'entity' => $menu,
             'menu_category' => $menuCategory,
             'form' => $editForm->createView(),

@@ -1,0 +1,180 @@
+{% extends '@TwinElementsAdmin/core/list.html.twig' %}
+
+{% set add_button_link = path('menu_new', {'category': menu_category.id }) %}
+
+{% block title %}{{ menu_category.title }}{% endblock %}
+{% block buttons %}
+        {{ block('add_button') }}
+{% endblock %}
+
+{% block list %}
+    <ul class="cms-list sortable">
+        <li class="header">
+            <div class="level_content row align-items-center">
+                {{ block('id_header') }}
+                <div class="col">{{ "menu.menu"|trans({},null,admin_locale) }}</div>
+                {{ block('list_changes_header') }}
+                {{ block('move_header') }}
+            </div>
+        </li>
+        {% for menu in menus if menu.parent == null %}
+            {% set id = menu.id %}
+            {% set createdAt = menu.createdAt %}
+            {% set createdBy = menu.createdBy %}
+            {% set updatedAt = menu.updatedAt %}
+            {% set updatedBy = menu.updatedBy %}
+
+            <li id="{{ menu.id }}" class="sortable-item">
+                <div class="level_content row align-items-center">
+                    {{ block('id') }}
+                    <div class="col">
+                        <div class="title">
+                            <span>{{ menu.title }}</span>
+                            {% if menu.title is null %}
+                                <span class="badge badge-warning">{{ "cms.no_translations"|trans({},null,admin_locale) }}</span>
+                            {% endif %}
+                            <div class="hidden-bar">
+                                <a href="{{ path('menu_edit', { 'id': menu.id, 'category': menu_category.id }) }}">Edytuj</a>
+                            </div>
+                        </div>
+                    </div>
+                    {{ block('changes_box_in_list') }}
+                    {{ block('move') }}
+                </div>
+                {% if menu.children|length > 0 %}
+                    <ul class="cms-list level_2">
+                        {% for children in menu.children %}
+                            {% set id = children.id %}
+                            {% set createdAt = children.createdAt %}
+                            {% set createdBy = children.createdBy %}
+                            {% set updatedAt = children.updatedAt %}
+                            {% set updatedBy = children.updatedBy %}
+
+                            <li id="{{ children.id }}" class="sortable-item_2">
+                                <div class="level_content row align-items-center">
+                                    {{ block('id') }}
+                                    <div class="col">
+                                        <div class="title">
+                                            <div class="d-flex align-items-center">
+                                                <span class="arrow-right"></span>{{ children.title }}
+                                                {% if children.title is null %}
+                                                    <span class="badge badge-warning">{{ "cms.no_translations"|trans({},null,admin_locale) }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="hidden-bar">
+                                                <a href="{{ path('menu_edit', { 'id': children.id, 'category': menu_category.id }) }}">Edytuj</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ block('changes_box_in_list') }}
+                                    {{ block('move') }}
+                                </div>
+                                {# trzeci poziom #}
+
+                                {% if children.children|length > 0 %}
+                                    <ul class="cms-list level_3">
+                                        {% for childrenLvl3 in children.children %}
+                                            {% set id = childrenLvl3.id %}
+                                            {% set createdAt = childrenLvl3.createdAt %}
+                                            {% set createdBy = childrenLvl3.createdBy %}
+                                            {% set updatedAt = childrenLvl3.updatedAt %}
+                                            {% set updatedBy = childrenLvl3.updatedBy %}
+
+                                            <li id="{{ childrenLvl3.id }}" class="sortable-item_3">
+                                                <div class="level_content row align-items-center">
+                                                    {{ block('id') }}
+                                                    <div class="col">
+                                                        <div class="title">
+                                                            <div class="d-flex align-items-center">
+                                                                <span class="arrow-right"></span><span
+                                                                        class="arrow-right"></span>{{ childrenLvl3.title }}
+                                                                {% if childrenLvl3.title is null %}
+                                                                    <span class="badge badge-warning">{{ "cms.no_translations"|trans({},null,admin_locale) }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="hidden-bar">
+                                                                <a href="{{ path('menu_edit', { 'id': childrenLvl3.id, 'category': menu_category.id }) }}">Edytuj</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{ block('changes_box_in_list') }}
+                                                    {{ block('move') }}
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            console.log(window.jQuery);
+            $(window).on('load', function () {
+                $('.sortable').sortable({
+                    axis: 'y',
+                    items: ".sortable-item",
+                    tolerance: 'pointer',
+                    cursor: 'move',
+                    handle: '.move',
+                    update: function () {
+                        var data = $(this).sortable('toArray');
+                        $.ajax({
+                            url: '{{ path('menu_sortable') }}',
+                            type: 'post',
+                            data: {data: data},
+                            success: function (e) {
+
+                            }
+                        })
+                    }
+                });
+
+                $('.level_2').sortable({
+                    axis: 'y',
+                    items: '.sortable-item_2',
+                    tolerance: 'pointer',
+                    cursor: 'move',
+                    handle: '.move',
+                    update: function () {
+                        var data = $(this).sortable('toArray');
+                        $.ajax({
+                            url: '{{ path('menu_sortable') }}',
+                            type: 'post',
+                            data: {data: data},
+                            success: function (e) {
+
+                            }
+                        })
+                    }
+                })
+
+                $('.level_3').sortable({
+                    axis: 'y',
+                    items: '.sortable-item_3',
+                    tolerance: 'pointer',
+                    cursor: 'move',
+                    handle: '.move',
+                    update: function () {
+                        var data = $(this).sortable('toArray');
+                        $.ajax({
+                            url: '{{ path('menu_sortable') }}',
+                            type: 'post',
+                            data: {data: data},
+                            success: function (e) {
+
+                            }
+                        })
+                    }
+                })
+            })
+        </script>
+
+    {% endblock %}

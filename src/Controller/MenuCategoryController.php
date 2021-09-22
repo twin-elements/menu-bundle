@@ -30,7 +30,7 @@ class MenuCategoryController extends AbstractController
             'menu_category.menu_categories' => null
         ]);
 
-        return $this->render('admin/menucategory/index.html.twig', [
+        return $this->render('@TwinElementsMenu/menucategory/index.html.twig', [
             'menuCategories' => $menuCategories,
         ]);
     }
@@ -72,7 +72,7 @@ class MenuCategoryController extends AbstractController
             'menu_category.add_new_menu' => null
         ]);
 
-        return $this->render('admin/menucategory/new.html.twig', array(
+        return $this->render('@TwinElementsMenu/menucategory/new.html.twig', array(
             'menuCategory' => $menuCategory,
             'form' => $form->createView(),
         ));
@@ -112,7 +112,7 @@ class MenuCategoryController extends AbstractController
             $menuCategory->getTitle() => null
         ]);
 
-        return $this->render('admin/menucategory/edit.html.twig', array(
+        return $this->render('@TwinElementsMenu/menucategory/edit.html.twig', array(
             'entity' => $menuCategory,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

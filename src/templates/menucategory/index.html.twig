@@ -1,0 +1,56 @@
+{% extends '@TwinElementsAdmin/core/list.html.twig' %}
+
+{% block title %}{{ "menu_category.menu_categories"|translate_admin }}{% endblock %}
+{% block buttons %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% set add_button_link = path('menucategory_new') %}
+        {{ block('add_button') }}
+    {% endif %}
+{% endblock %}
+
+{% block list %}
+    {% if menuCategories|length > 0 %}
+        <ul class="cms-list">
+            <li class="header ">
+                <div class="level_content row align-items-center">
+                    {{ block('id_header') }}
+                    <div class="col">{{ "menu_category.title"|translate_admin }}</div>
+                    {% set circle_header_name = "menu_category.isCached"|translate_admin %}
+                    {{ block('list_changes_header') }}
+                    {{ block('circle_header') }}
+                </div>
+            </li>
+            {% for menuCategory in menuCategories %}
+                {% set id = menuCategory.id %}
+                {% set createdAt = menuCategory.createdAt %}
+                {% set createdBy = menuCategory.createdBy %}
+                {% set updatedAt = menuCategory.updatedAt %}
+                {% set updatedBy = menuCategory.updatedBy %}
+                {% set circle_active = menuCategory.isCached %}
+
+                <li class="">
+                    <div class="level_content row align-items-center">
+                        {{ block('id') }}
+                        <div class="col">
+                            <div class="title">
+                                <span>{{ menuCategory.title }}</span>
+                                <br>
+                                <div class="hidden-bar">
+                                    {% if is_granted('ROLE_EDIT') %}
+                                        <a href="{{ path('menucategory_edit', { 'id': menuCategory.id }) }}">{{ "menu.edit_menu_category"|translate_admin }}</a>
+                                    {% endif %}
+                                    <span class="circle-separator"></span>
+                                    <a href="{{ path('menu_index', { 'category': menuCategory.id }) }}">{{ "menu.menu_elements"|translate_admin }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{ block('changes_box_in_list') }}
+                        {{ block('circle') }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {{ block('no_elements') }}
+    {% endif %}
+{% endblock %}

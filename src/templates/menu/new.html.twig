@@ -1,0 +1,8 @@
+{% extends '@TwinElementsAdmin/core/details.html.twig' %}
+
+{% block title %}{{ 'menu.add_new_menu_item'|trans }}{% endblock %}
+{% block buttons %}
+    {% set back_button_link = path('menu_index', {'category': menu_category.id}) %}
+    {{ block('back_button') }}
+{% endblock %}
+

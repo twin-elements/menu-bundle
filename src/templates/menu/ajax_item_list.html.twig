@@ -1,0 +1,6 @@
+<select id="itemList" class="input form-control" style="margin-top: 20px;">
+    <option>Wybierz z listy</option>
+    {% for item in items %}
+        <option value="{{ item.id }}" {% if checkedKey == item.id %}selected="selected"{% endif %}>{{ item.title }}</option>
+    {% endfor %}
+</select>
