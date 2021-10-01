@@ -3,6 +3,7 @@
 namespace TwinElements\MenuBundle\Controller;
 
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use TwinElements\AdminBundle\Entity\Traits\PositionInterface;
 use TwinElements\AdminBundle\Helper\Breadcrumbs;
 use TwinElements\AdminBundle\Helper\CrudLoggerMessage;
 use TwinElements\AdminBundle\Helper\Flashes;
@@ -10,13 +11,13 @@ use TwinElements\AdminBundle\Model\CrudControllerTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use TwinElements\AdminBundle\Role\AdminUserRole;
 use TwinElements\AdminBundle\Service\AdminTranslator;
 use TwinElements\MenuBundle\Entity\Menu;
 use TwinElements\MenuBundle\Entity\MenuCategory;
 use TwinElements\MenuBundle\Form\MenuType;
 use TwinElements\MenuBundle\MenuCacheUtilities;
+use TwinElements\MenuBundle\Repository\MenuCategoryRepository;
 use TwinElements\MenuBundle\Repository\MenuRepository;
 
 /**
@@ -42,50 +43,32 @@ class MenuController extends AbstractController
     /**
      * @Route("/", name="menu_index", methods={"GET"})
      */
-    public function indexAction(Request $request, MenuRepository $menuRepository)
+    public function indexAction(Request $request, MenuRepository $menuRepository, MenuCategoryRepository $menuCategoryRepository)
     {
-        $categoryId = (int)$request->get('category');
-        $em = $this->getDoctrine();
+        if (!$request->query->has('category')) {
+            throw new \Exception('Category ID not found');
+        }
+
+        $categoryId = $request->query->getInt('category');
 
         $menuItems = $menuRepository->findIndexListItems($categoryId);
-        $menuCategory = $em->getRepository(MenuCategory::class)->find($categoryId);
+        $menuCategory = $menuCategoryRepository->find($categoryId);
 
         $this->breadcrumbs->setItems([
             'menu_category.menu_categories' => $this->generateUrl('menucategory_index'),
             $menuCategory->getTitle() => null
         ]);
 
-        return $this->render('@TwinElementsMenu/menu/index.html.twig', array(
+        $responseParameters = [
             'menus' => $menuItems,
             'menu_category' => $menuCategory
-        ));
-    }
+        ];
 
-    /**
-     * @Route("/sortable", name="menu_sortable", methods={"POST"})
-     */
-    public function sortableAction(Request $request)
-    {
-        $this->denyAccessUnlessGranted(AdminUserRole::ROLE_ADMIN, null, 'Nie masz uprawnień');
-
-        $data = $request->get('data');
-        if (is_array($request->get('data'))) {
-            $repository = $this->getDoctrine()->getRepository(Menu::class);
-            $position = 1;
-            foreach ($data as $item) {
-                $qb = $repository->createQueryBuilder('m')
-                    ->update()
-                    ->set('m.position', '?1')
-                    ->where('m.id = :id')
-                    ->setParameter('id', $item)
-                    ->setParameter(1, $position)
-                    ->getQuery();
-
-                $position++;
-                $qb->execute();
-            }
+        if ((new \ReflectionClass(Menu::class))->implementsInterface(PositionInterface::class)) {
+            $responseParameters['sortable'] = Menu::class;
         }
-        return new Response('ok', 200);
+
+        return $this->render('@TwinElementsMenu/menu/index.html.twig', $responseParameters);
     }
 
     /**
