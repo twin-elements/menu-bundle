@@ -10,16 +10,16 @@
 
 {% block list %}
     {% if menuCategories|length > 0 %}
-        <ul class="cms-list">
-            <li class="header ">
-                <div class="level_content row align-items-center">
-                    {{ block('id_header') }}
-                    <div class="col">{{ "menu_category.title"|translate_admin }}</div>
-                    {% set circle_header_name = "menu_category.isCached"|translate_admin %}
-                    {{ block('list_changes_header') }}
-                    {{ block('circle_header') }}
-                </div>
-            </li>
+        {{ block('list_ul_begin') }}
+            {{ block('list_li_header_begin') }}
+
+                {{ block('id_header') }}
+                <div class="col">{{ "menu_category.title"|translate_admin }}</div>
+                {% set circle_header_name = "menu_category.cache"|translate_admin %}
+                {{ block('list_changes_header') }}
+                {{ block('circle_header') }}
+
+            {{ block('list_li_header_end') }}
             {% for menuCategory in menuCategories %}
                 {% set id = menuCategory.id %}
                 {% set createdAt = menuCategory.createdAt %}
@@ -28,28 +28,25 @@
                 {% set updatedBy = menuCategory.updatedBy %}
                 {% set circle_active = menuCategory.isCached %}
 
-                <li class="">
-                    <div class="level_content row align-items-center">
-                        {{ block('id') }}
-                        <div class="col">
-                            <div class="title">
+                {{ block('list_li_begin') }}
+                    {{ block('id') }}
+                    <div class="col">
+                        <div class="title">
+                            {% if is_granted('ROLE_EDIT') %}
+                                {% set editUrl = path('menucategory_edit', { 'id': menuCategory.id }) %}
+                            {% endif %}
+                            <a {% if editUrl %}href="{{ editUrl }}"{% endif %}>
                                 <span>{{ menuCategory.title }}</span>
-                                <br>
-                                <div class="hidden-bar">
-                                    {% if is_granted('ROLE_EDIT') %}
-                                        <a href="{{ path('menucategory_edit', { 'id': menuCategory.id }) }}">{{ "menu.edit_menu_category"|translate_admin }}</a>
-                                    {% endif %}
-                                    <span class="circle-separator"></span>
-                                    <a href="{{ path('menu_index', { 'category': menuCategory.id }) }}">{{ "menu.menu_elements"|translate_admin }}</a>
-                                </div>
-                            </div>
+                            </a>
+                            <span class="circle-separator"></span>
+                            <a href="{{ path('menu_index', { 'category': menuCategory.id }) }}" class="btn btn-primary btn-sm rounded-pill">{{ "menu.menu_elements"|translate_admin }}</a>
                         </div>
-                        {{ block('changes_box_in_list') }}
-                        {{ block('circle') }}
                     </div>
-                </li>
+                    {{ block('changes_box_in_list') }}
+                    {{ block('circle') }}
+                {{ block('list_li_end') }}
             {% endfor %}
-        </ul>
+        {{ block('list_ul_end') }}
     {% else %}
         {{ block('no_elements') }}
     {% endif %}

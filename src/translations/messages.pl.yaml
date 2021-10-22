@@ -2,7 +2,7 @@ menu:
   menu: Menu
   add_new_menu_position: Dodawanie nowej pozycji
   edit_menu_category: Edytuj
-  menu_elements: Pozycje menu
+  menu_elements: Zawartość menu
   add_new_menu_item: Tworzenie nowej pozycji menu
   redirect: Przekierowanie
   parent: Strona nadrzędna
@@ -16,6 +16,7 @@ menu_category:
   title: Nazwa menu
   code: Kod menu
   isCached: Czy jest cachowane?
+  cache: Cache
   add_new_menu: Dodawanie nowego menu
 
 

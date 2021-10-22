@@ -9,7 +9,7 @@
 
 {% block renderChild %}
     {% set actualLvl = lvl %}
-    <ul class="cms-list sortable">
+    {{ block('list_ul_begin') }}
         {% for child in children %}
             {% set id = child.id %}
             {% set createdAt = child.createdAt %}
@@ -17,12 +17,11 @@
             {% set updatedAt = child.updatedAt %}
             {% set updatedBy = child.updatedBy %}
 
-            <li data-id="{{ child.id }}" class="sortable-item">
-                <div class="level_content row align-items-center">
+            {{ block('list_li_begin') }}
                     {{ block('id') }}
                     <div class="col">
                         <div class="title">
-                            <div class="d-flex align-items-center">
+                            <a href="{{ path('menu_edit', { 'id': child.id, 'category': menu_category.id }) }}">
                                 {% if actualLvl > 0 %}
                                     {% for i in 1..actualLvl %}
                                         <span class="arrow-right"></span>
@@ -32,36 +31,30 @@
                                 {% if child.title is null %}
                                     <span class="badge badge-warning">{{ "cms.no_translations"|translate_admin }}</span>
                                 {% endif %}
-                            </div>
-                            <div class="hidden-bar">
-                                <a href="{{ path('menu_edit', { 'id': child.id, 'category': menu_category.id }) }}">{{ "actions.edit"|translate_admin }}</a>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     {{ block('changes_box_in_list') }}
                     {{ block('move') }}
-                </div>
 
                 {% if child.children|length > 0 %}
                     {% set lvl = actualLvl + 1 %}
                     {% set children = child.children %}
                     {{ block('renderChild') }}
                 {% endif %}
-            </li>
+            {{ block('list_li_end') }}
         {% endfor %}
-    </ul>
+    {{ block('list_ul_end') }}
 {% endblock %}
 
 {% block list %}
-    <ul class="cms-list sortable">
-        <li class="header">
-            <div class="level_content row align-items-center">
+    {{ block('list_ul_begin') }}
+        {{ block('list_li_header_begin') }}
                 {{ block('id_header') }}
                 <div class="col">{{ "menu.menu"|translate_admin }}</div>
                 {{ block('list_changes_header') }}
                 {{ block('move_header') }}
-            </div>
-        </li>
+        {{ block('list_li_header_end') }}
         {% for menu in menus if menu.parent == null %}
             {% set id = menu.id %}
             {% set createdAt = menu.createdAt %}
@@ -69,31 +62,28 @@
             {% set updatedAt = menu.updatedAt %}
             {% set updatedBy = menu.updatedBy %}
 
-            <li data-id="{{ menu.id }}" class="sortable-item">
-                <div class="level_content row align-items-center">
+            {{ block('list_li_begin') }}
                     {{ block('id') }}
                     <div class="col">
                         <div class="title">
-                            <span>{{ menu.title }}</span>
-                            {% if menu.title is null %}
-                                <span class="badge badge-warning">{{ "cms.no_translations"|translate_admin }}</span>
-                            {% endif %}
-                            <div class="hidden-bar">
-                                <a href="{{ path('menu_edit', { 'id': menu.id, 'category': menu_category.id }) }}">{{ "actions.edit"|translate_admin }}</a>
-                            </div>
+                            <a href="{{ path('menu_edit', { 'id': menu.id, 'category': menu_category.id }) }}">
+                                <span>{{ menu.title }}</span>
+                                {% if menu.title is null %}
+                                    <span class="badge badge-warning">{{ "cms.no_translations"|translate_admin }}</span>
+                                {% endif %}
+                            </a>
                         </div>
                     </div>
                     {{ block('changes_box_in_list') }}
                     {{ block('move') }}
-                </div>
                 {% if menu.children|length > 0 %}
                     {% set lvl = 1 %}
                     {% set children = menu.children %}
                     {{ block('renderChild') }}
                 {% endif %}
-            </li>
+            {{ block('list_li_end') }}
         {% endfor %}
-    </ul>
+    {{ block('list_ul_end') }}
 {% endblock %}
 
 {% block head_js %}
