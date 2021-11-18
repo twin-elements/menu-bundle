@@ -17,5 +17,8 @@
 
 {% block right_sidebar %}
     {{ block('changes_details') }}
+    <div class="cms-section">
+        <a href="{{ path('menu_index', {'category': entity.id}) }}" class="btn btn-outline-primary rounded-pill btn-sm">{{ "menu.menu_elements"|translate_admin }}</a>
+    </div>
     {{ block('delete_form') }}
 {% endblock %}
