@@ -52,7 +52,7 @@ class MenuCategoryController extends AbstractController
 		        $em->persist($menuCategory);
 		        $em->flush();
 
-		        $this->flashes->successMessage();
+		        $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
 		        $this->crudLogger->createLog($menuCategory->getId(), $menuCategory->getTitle());
 
 	        } catch (\Exception $exception) {
@@ -93,7 +93,7 @@ class MenuCategoryController extends AbstractController
         	try {
 		        $this->getDoctrine()->getManager()->flush();
 
-		        $this->flashes->successMessage();
+		        $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
 		        $this->crudLogger->createLog($menuCategory->getId(), $menuCategory->getTitle());
 
 	        } catch (\Exception $exception) {
@@ -142,7 +142,7 @@ class MenuCategoryController extends AbstractController
 		        $em->remove($menuCategory);
 		        $em->flush();
 
-		        $this->flashes->successMessage();
+		        $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
 		        $this->crudLogger->createLog($id, $title);
 
 	        } catch (\Exception $exception){

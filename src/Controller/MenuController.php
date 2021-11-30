@@ -105,7 +105,7 @@ class MenuController extends AbstractController
                     $this->removeCache($menuCategory->getId(), $request->getLocale());
                 }
 
-                $this->flashes->successMessage();
+                $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
                 $this->crudLogger->createLog($menu->getId(), $menu->getTitle());
 
             } catch (\Exception $exception) {
@@ -163,7 +163,7 @@ class MenuController extends AbstractController
                     $this->removeCache($menuCategory->getId(), $request->getLocale());
                 }
 
-                $this->flashes->successMessage();
+                $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
                 $this->crudLogger->createLog($menu->getId(), $menu->getTitle());
 
             } catch (\Exception $exception) {
