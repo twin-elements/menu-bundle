@@ -33,7 +33,7 @@ class MenuType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => $this->translator->translate('cms.title')
+                'label' => $this->translator->translate('admin.title')
             ])
             ->add('route', TEChooseLinkType::class, [
                 'label' => $this->translator->translate('menu.redirect')

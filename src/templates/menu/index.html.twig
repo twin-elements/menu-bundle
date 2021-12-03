@@ -55,7 +55,7 @@
                 {{ block('list_changes_header') }}
                 {{ block('move_header') }}
         {{ block('list_li_header_end') }}
-        {% for menu in menus if menu.parent == null %}
+        {% for menu in menus|filter(menu => menu.parent == null) %}
             {% set id = menu.id %}
             {% set createdAt = menu.createdAt %}
             {% set createdBy = menu.createdBy %}
