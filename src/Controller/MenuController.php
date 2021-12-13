@@ -55,7 +55,7 @@ class MenuController extends AbstractController
         $menuCategory = $menuCategoryRepository->find($categoryId);
 
         $this->breadcrumbs->setItems([
-            'menu_category.menu_categories' => $this->generateUrl('menucategory_index'),
+            $this->adminTranslator->translate('menu_category.menu_categories') => $this->generateUrl('menucategory_index'),
             $menuCategory->getTitle() => null
         ]);
 
@@ -122,7 +122,7 @@ class MenuController extends AbstractController
 
 
         $this->breadcrumbs->setItems([
-            'menu_category.menu_categories' => $this->generateUrl('menucategory_index'),
+            $this->adminTranslator->translate('menu_category.menu_categories') => $this->generateUrl('menucategory_index'),
             $menuCategoryDefaultTitle => $this->generateUrl('menu_index', [
                 'category' => $categoryId
             ]),
@@ -179,7 +179,7 @@ class MenuController extends AbstractController
         }
 
         $this->breadcrumbs->setItems([
-            'menu_category.menu_categories' => $this->generateUrl('menucategory_index'),
+            $this->adminTranslator->translate('menu_category.menu_categories') => $this->generateUrl('menucategory_index'),
             $menu->getCategory()->getTitle() => $this->generateUrl('menu_index', [
                 'category' => $categoryId
             ]),
