@@ -10,6 +10,8 @@ menu:
   open_in_a_new_tab: Otworzyć w nowej karcie
   open_in_a_new_tab_help: Wybierz TAK, jeśli ten link ma się otworzyć w nowej zakładce
   the_menu_item_has_been_deleted: Pozycja menu została skasowana
+  megamenu: Megamenu
+  is_mega_menu: Czy to jest megamenu?
 
 menu_category:
   menu_categories: Kategorie menu

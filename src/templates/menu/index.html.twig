@@ -32,6 +32,9 @@
                                     <span class="badge badge-warning">{{ "cms.no_translations"|translate_admin }}</span>
                                 {% endif %}
                             </a>
+                            {% if child.isMegamenu %}
+                                <span class="badge badge-info">{{ "menu.megamenu"|translate_admin }}</span>
+                            {% endif %}
                         </div>
                     </div>
                     {{ block('changes_box_in_list') }}
@@ -72,6 +75,9 @@
                                     <span class="badge badge-warning">{{ "cms.no_translations"|translate_admin }}</span>
                                 {% endif %}
                             </a>
+                            {% if  menu.isMegamenu %}
+                                <span class="badge badge-info">{{ "menu.megamenu"|translate_admin }}</span>
+                            {% endif %}
                         </div>
                     </div>
                     {{ block('changes_box_in_list') }}

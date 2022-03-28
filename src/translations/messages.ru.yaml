@@ -1,0 +1,24 @@
+menu:
+  menu: Меню
+  add_new_menu_position: Создание новой позиции
+  edit_menu_category: Редактировать
+  menu_elements: Содержимое меню
+  add_new_menu_item: Создание нового елемента
+  redirect: Перенаправление
+  parent: Родительская позиция меню
+  choose_parent: Выберите страницу
+  open_in_a_new_tab: Открыть в новой вкладке
+  open_in_a_new_tab_help: Выберите ДА, если ссылка должна открыться в новой вкладке
+  the_menu_item_has_been_deleted: Элемент меню удален
+  megamenu: Мегаменю
+  is_mega_menu: Czy to jest megamenu?
+
+menu_category:
+  menu_categories: Kategorie menu
+  title: Nazwa menu
+  code: Kod menu
+  isCached: Czy jest cachowane?
+  cache: Cache
+  add_new_menu: Dodawanie nowego menu
+
+

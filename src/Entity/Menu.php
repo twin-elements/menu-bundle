@@ -52,6 +52,12 @@ class Menu implements TranslatableInterface, BlameableInterface, TimestampableIn
      */
     private $isInNewTab = false;
 
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $isMegamenu = false;
+
     public function __toString()
     {
         $title = $this->translate(null, false)->getTitle();
@@ -153,5 +159,21 @@ class Menu implements TranslatableInterface, BlameableInterface, TimestampableIn
     public function setRoute($route): void
     {
         $this->translate(null, false)->setRoute($route);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMegamenu(): bool
+    {
+        return $this->isMegamenu;
+    }
+
+    /**
+     * @param bool $isMegamenu
+     */
+    public function setIsMegamenu(bool $isMegamenu): void
+    {
+        $this->isMegamenu = $isMegamenu;
     }
 }

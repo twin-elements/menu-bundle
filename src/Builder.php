@@ -78,6 +78,10 @@ class Builder
                     $this->menu->getChild($menuItem['title'])->setLinkAttribute('target', '_blank');
                 }
 
+                if($menuItem['isMegaMenu']){
+                    $this->menu->getChild($menuItem['title'])->setAttribute('class', 'megamenu');
+                }
+
                 $this->recursiveGeneratePositions($menuItems, $menuId, $menuItem);
 
             }
@@ -98,7 +102,8 @@ class Builder
             $menuItems[($menuItem->getParent() ? $menuItem->getParent()->getId() : 0)][$menuItem->getId()] = [
                 'title' => $menuItem->getTitle(),
                 'isInNewTab' => $menuItem->isInNewTab(),
-                'url' => $this->returnRoute($menuItem->getRoute())
+                'url' => $this->returnRoute($menuItem->getRoute()),
+                'isMegaMenu' => $menuItem->isMegamenu()
             ];
         }
 

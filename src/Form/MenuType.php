@@ -66,6 +66,9 @@ class MenuType extends AbstractType
                 'label' => $this->translator->translate('menu.open_in_a_new_tab'),
                 'help' => $this->translator->translate('menu.open_in_a_new_tab_help')
             ])
+            ->add('isMegamenu', ToggleChoiceType::class,[
+                'label' => $this->translator->translate('menu.is_mega_menu')
+            ])
             ->add('buttons', SaveButtonsType::class);
     }
 
