@@ -3,7 +3,7 @@
 namespace TwinElements\MenuBundle\Controller;
 
 use Symfony\Component\Cache\Adapter\AdapterInterface;
-use TwinElements\AdminBundle\Entity\Traits\PositionInterface;
+use TwinElements\SortableBundle\Entity\PositionInterface;
 use TwinElements\AdminBundle\Helper\Breadcrumbs;
 use TwinElements\AdminBundle\Helper\CrudLoggerMessage;
 use TwinElements\AdminBundle\Model\CrudControllerTrait;
@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use TwinElements\AdminBundle\Role\AdminUserRole;
-use TwinElements\AdminBundle\Service\AdminTranslator;
+use TwinElements\Component\AdminTranslator\AdminTranslator;
 use TwinElements\Component\Flashes\Flashes;
 use TwinElements\MenuBundle\Entity\Menu;
 use TwinElements\MenuBundle\Entity\MenuCategory;
