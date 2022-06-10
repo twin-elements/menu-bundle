@@ -3,9 +3,10 @@
 namespace TwinElements\MenuBundle\Controller;
 
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use TwinElements\Component\CrudLogger\CrudLogger;
+use TwinElements\Component\CrudLogger\CrudLoggerInterface;
 use TwinElements\SortableBundle\Entity\PositionInterface;
 use TwinElements\AdminBundle\Helper\Breadcrumbs;
-use TwinElements\AdminBundle\Helper\CrudLoggerMessage;
 use TwinElements\AdminBundle\Model\CrudControllerTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +35,7 @@ class MenuController extends AbstractController
         CrudControllerTrait::__construct as private __crudConstruct;
     }
 
-    public function __construct(Breadcrumbs $breadcrumbs, Flashes $flashes, CrudLoggerMessage $crudLogger, AdminTranslator $translator, AdapterInterface $cache)
+    public function __construct(Breadcrumbs $breadcrumbs, Flashes $flashes, CrudLoggerInterface $crudLogger, AdminTranslator $translator, AdapterInterface $cache)
     {
         $this->__crudConstruct($breadcrumbs, $flashes, $crudLogger, $translator);
         $this->cache = $cache;
@@ -106,7 +107,7 @@ class MenuController extends AbstractController
                 }
 
                 $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
-                $this->crudLogger->createLog($menu->getId(), $menu->getTitle());
+                $this->crudLogger->createLog(Menu::class, CrudLogger::CreateAction, $menu->getId());
 
             } catch (\Exception $exception) {
                 $this->flashes->errorMessage($exception->getMessage());
@@ -164,7 +165,7 @@ class MenuController extends AbstractController
                 }
 
                 $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
-                $this->crudLogger->createLog($menu->getId(), $menu->getTitle());
+                $this->crudLogger->createLog(Menu::class, CrudLogger::EditAction, $menu->getId());
 
             } catch (\Exception $exception) {
                 $this->flashes->errorMessage($exception->getMessage());
@@ -221,7 +222,7 @@ class MenuController extends AbstractController
 
                 $this->removeCache($category, $request->getLocale());
 
-                $this->crudLogger->createLog($id, $title);
+                $this->crudLogger->createLog(Menu::class, CrudLogger::DeleteAction, $menu->getId());
                 $this->flashes->successMessage($this->adminTranslator->translate('menu.the_menu_item_has_been_deleted'));
             } catch (\Exception $exception) {
                 $this->flashes->errorMessage($exception->getMessage());

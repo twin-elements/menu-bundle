@@ -2,11 +2,13 @@
 
 namespace TwinElements\MenuBundle\Controller;
 
+use Doctrine\Persistence\ManagerRegistry;
 use TwinElements\AdminBundle\Model\CrudControllerTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use TwinElements\AdminBundle\Role\AdminUserRole;
+use TwinElements\Component\CrudLogger\CrudLogger;
 use TwinElements\MenuBundle\Entity\MenuCategory;
 use TwinElements\MenuBundle\Form\MenuCategoryType;
 use TwinElements\MenuBundle\Repository\MenuCategoryRepository;
@@ -38,7 +40,9 @@ class MenuCategoryController extends AbstractController
     /**
      * @Route("/new", name="menucategory_new", methods={"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(
+        ManagerRegistry $managerRegistry,
+        Request $request)
     {
         $this->denyAccessUnlessGranted("ROLE_SUPER_ADMIN");
         $menuCategory = new Menucategory();
@@ -48,12 +52,12 @@ class MenuCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
         	try {
-		        $em = $this->getDoctrine()->getManager();
+		        $em = $managerRegistry->getManager();
 		        $em->persist($menuCategory);
 		        $em->flush();
 
 		        $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
-		        $this->crudLogger->createLog($menuCategory->getId(), $menuCategory->getTitle());
+		        $this->crudLogger->createLog(MenuCategory::class, CrudLogger::CreateAction, $menuCategory->getId());
 
 	        } catch (\Exception $exception) {
         		$this->flashes->errorMessage($exception->getMessage());
@@ -81,7 +85,7 @@ class MenuCategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="menucategory_edit", methods={"GET", "POST"})
      */
-    public function editAction(Request $request, MenuCategory $menuCategory)
+    public function editAction(ManagerRegistry $managerRegistry, Request $request, MenuCategory $menuCategory)
     {
         $this->denyAccessUnlessGranted(AdminUserRole::ROLE_ADMIN);
         $deleteForm = $this->createDeleteForm($menuCategory);
@@ -91,10 +95,10 @@ class MenuCategoryController extends AbstractController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
         	try {
-		        $this->getDoctrine()->getManager()->flush();
+		        $managerRegistry->getManager()->flush();
 
 		        $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
-		        $this->crudLogger->createLog($menuCategory->getId(), $menuCategory->getTitle());
+		        $this->crudLogger->createLog(MenuCategory::class, CrudLogger::EditAction, $menuCategory->getId());
 
 	        } catch (\Exception $exception) {
         		$this->flashes->errorMessage($exception->getMessage());
@@ -124,7 +128,7 @@ class MenuCategoryController extends AbstractController
      *
      * @Route("/{id}", name="menucategory_delete", methods={"DELETE"})
      */
-    public function deleteAction(Request $request, MenuCategory $menuCategory)
+    public function deleteAction(Request $request, MenuCategory $menuCategory, ManagerRegistry $managerRegistry)
     {
         $this->denyAccessUnlessGranted(AdminUserRole::ROLE_ADMIN);
 
@@ -136,14 +140,13 @@ class MenuCategoryController extends AbstractController
         	try {
 
         		$id = $menuCategory->getId();
-        		$title = $menuCategory->getTitle();
 
-		        $em = $this->getDoctrine()->getManager();
+		        $em = $managerRegistry->getManager();
 		        $em->remove($menuCategory);
 		        $em->flush();
 
 		        $this->flashes->successMessage($this->adminTranslator->translate('admin.success_operation'));;
-		        $this->crudLogger->createLog($id, $title);
+		        $this->crudLogger->createLog(MenuCategory::class, CrudLogger::DeleteAction, $id);
 
 	        } catch (\Exception $exception){
         		$this->flashes->errorMessage($exception->getMessage());
