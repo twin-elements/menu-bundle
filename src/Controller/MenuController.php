@@ -212,17 +212,14 @@ class MenuController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             try {
-
                 $id = $menu->getId();
-                $title = $menu->getTitle();
-
                 $em = $this->getDoctrine()->getManager();
                 $em->remove($menu);
                 $em->flush();
 
                 $this->removeCache($category, $request->getLocale());
 
-                $this->crudLogger->createLog(Menu::class, CrudLogger::DeleteAction, $menu->getId());
+                $this->crudLogger->createLog(Menu::class, CrudLogger::DeleteAction, $id);
                 $this->flashes->successMessage($this->adminTranslator->translate('menu.the_menu_item_has_been_deleted'));
             } catch (\Exception $exception) {
                 $this->flashes->errorMessage($exception->getMessage());
