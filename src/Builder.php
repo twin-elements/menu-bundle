@@ -137,6 +137,10 @@ class Builder
                     if ($childMenuItem['isInNewTab']) {
                         $this->menu->getChild($menuItem['title'])->getChild($childMenuItem['title'])->setLinkAttribute('target', '_blank');
                     }
+                    if($childMenuItem['isMegaMenu']){
+                        $this->menu->getChild($menuItem['title'])->getChild($childMenuItem['title'])->setAttribute('class', 'megamenu');
+                    }
+
                     if (isset($menuResult[$childId]) && count($menuResult[$childId]) > 0) {
                         foreach ($menuResult[$childId] as $lvlTwoId => $lvlTwoItem) {
                             $this->menu[$menuItem['title']][$childMenuItem['title']]->addChild(
